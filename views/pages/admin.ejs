@@ -1,40 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin – Submissions</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 
-<body class="bg-light">
+<body class="bg-slate-100 min-h-screen">
 
-<div class="container mt-5">
-    <h2 class="mb-4">User Enquiries</h2>
+<!-- HEADER -->
+<div class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
 
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>System Type</th>
-                <th>Message</th>
-                <th>Date</th>
-            </tr>
-        </thead>
+        <div>
+            <h1 class="text-xl font-semibold text-slate-800">Client Enquiries</h1>
+            <p class="text-xs text-slate-500">Smart Aqua Admin Dashboard</p>
+        </div>
 
-        <tbody>
-            <% submissions.forEach(s => { %>
-                <tr>
-                    <td><%= s.name %></td>
-                    <td><%= s.phone %></td>
-                    <td><%= s.email %></td>
-                    <td><%= s.systemType %></td>
-                    <td><%= s.message %></td>
-                    <td><%= s.date.toLocaleString() %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+        <div class="flex gap-4 items-center">
+            <a href="/home" class="text-sm text-slate-500 hover:text-slate-900 transition">Back</a>
+            <a href="/admin/logout" class="text-sm text-red-500 hover:text-red-700">Logout</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- TABLE WRAPPER -->
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+    <div class="bg-white shadow-sm border rounded-xl overflow-hidden">
+
+        <!-- TABLE -->
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-left">
+
+                <!-- HEAD -->
+                <thead class="bg-slate-50 border-b">
+                    <tr class="text-xs uppercase tracking-wider text-slate-500">
+                        <th class="p-4">Name</th>
+                        <th class="p-4">Phone</th>
+                        <th class="p-4">Address</th>
+                        <th class="p-4">RO Plant</th>
+                        <th class="p-4">Chiller</th>
+                        <th class="p-4">Date</th>
+                        <th class="p-4 text-center">Action</th>
+                    </tr>
+                </thead>
+
+                <!-- BODY -->
+                <tbody class="divide-y divide-slate-100">
+
+                    <% submissions.forEach(s => { %>
+                    <tr class="hover:bg-slate-50 transition">
+
+                        <td class="p-4 font-medium text-slate-800">
+                            <%= s.name %>
+                        </td>
+
+                        <td class="p-4 text-slate-600">
+                            <%= s.phone %>
+                        </td>
+
+                        <td class="p-4 text-slate-500 max-w-xs truncate">
+                            <%= s.address %>
+                        </td>
+
+                        <!-- BADGE STYLE -->
+                        <td class="p-4">
+                            <span class="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-600 font-medium">
+                                <%= s.roPlant %>
+                            </span>
+                        </td>
+
+                        <td class="p-4">
+                            <span class="px-3 py-1 text-xs rounded-full bg-slate-100 text-slate-600 font-medium">
+                                <%= s.chiller %>
+                            </span>
+                        </td>
+
+                        <td class="p-4 text-sm text-slate-500">
+                            <%= s.date.toDateString() %>
+                        </td>
+
+                        <!-- ACTION -->
+                        <td class="p-4 text-center">
+                            <form action="/delete/<%= s._id %>" method="POST"
+                                  onsubmit="return confirm('Delete this record?')">
+
+                                <button
+                                    type="submit"
+                                    class="px-3 py-1 text-xs font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                                    Delete
+                                </button>
+
+                            </form>
+                        </td>
+
+                    </tr>
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
 </body>

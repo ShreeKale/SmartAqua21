@@ -1,117 +1,105 @@
-// const express = require("express");
-// const app = express();
-
-// const path = require("path");
-// const ejsMate = require("ejs-mate");
-
-// app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "views"));
-// app.engine("ejs", ejsMate);
-
-// app.use(express.static(path.join(__dirname, "public")));
-
-// // Home route (root URL)
-// app.get("/", (req, res) => {
-//     res.render("pages/home.ejs");
-// });
-
-// // Other pages
-// app.get("/home", (req, res) => {
-//     res.render("pages/home.ejs");
-// });
-
-// app.get("/products", (req, res) => {
-//     res.render("pages/products.ejs");
-// });
-
-// // Export for Vercel (no app.listen)
-// //module.exports = app;
-// app.listen(8080, () => {
-//     console.log("app is listning to port 8080")
-// })
-
-
-
 const express = require("express");
 const app = express();
-
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
+const session = require("express-session");
 
-// ---------------- MONGODB CONNECTION ----------------
+// ================= DATABASE =================
 mongoose.connect("mongodb://127.0.0.1:27017/smartaqua")
-    .then(() => console.log("MongoDB Connected Successfully"))
-    .catch(err => console.log("DB Error:", err));
+    .then(() => console.log("Database Connected"))
+    .catch(err => console.log(err));
 
-// ---------------- SCHEMA ----------------
+// ================= SCHEMA =================
 const formSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    mobile: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    address: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+    name: String,
+    phone: String,
+    address: String,
+    roPlant: String,
+    chiller: String,
+    date: { type: Date, default: Date.now }
 });
 
 const Form = mongoose.model("Form", formSchema);
 
-
-// ---------------- MIDDLEWARE ----------------
+// ================= MIDDLEWARE =================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: "smartaqua_secret_key",
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
-
 app.use(express.static(path.join(__dirname, "public")));
 
-// ---------------- ROUTES ----------------
-app.get("/", (req, res) => {
-    res.render("pages/home.ejs");
+// ================= HOME ROUTES =================
+app.get("/", (req, res) => res.render("pages/home"));
+app.get("/home", (req, res) => res.render("pages/home"));
+app.get("/products", (req, res) => res.render("pages/products"));
+
+// ================= AUTH MIDDLEWARE (FIXED) =================
+function isAdmin(req, res, next) {
+    if (req.session && req.session.admin) {
+        return next();
+    }
+    return res.redirect("/admin/login");
+}
+
+// ================= LOGIN PAGE =================
+app.get("/admin/login", (req, res) => {
+    res.render("pages/login");
 });
 
-app.get("/home", (req, res) => {
-    res.render("pages/home.ejs");
+// ================= LOGIN POST =================
+app.post("/admin/login", (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === "admin" && password === "admin123") {
+        req.session.admin = true;
+        return res.redirect("/admin/submissions");
+    }
+
+    res.send("Invalid Credentials");
 });
 
-app.get("/products", (req, res) => {
-    res.render("pages/products.ejs");
+// ================= LOGOUT =================
+app.get("/admin/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/admin/login");
+    });
 });
 
-app.get("/admin/submissions", async (req, res) => {
+// ================= ADMIN PAGE (PROTECTED) =================
+app.get("/admin/submissions", isAdmin, async (req, res) => {
     const submissions = await Form.find().sort({ date: -1 });
-    res.render("pages/admin.ejs", { submissions });
+    res.render("pages/admin", { submissions });
 });
 
-
-// ----------- SAVE FORM DATA ROUTE (IMPORTANT) -----------
+// ================= FORM SUBMIT =================
 app.post("/submit-form", async (req, res) => {
     try {
-        const newForm = new Form(req.body);
-        await newForm.save();
-
-        res.json({ success: true, message: "Form submitted successfully!" });
+        await Form.create(req.body);
+        res.json({ success: true });
     } catch (err) {
-        res.json({ success: false, error: err });
+        console.log(err);
+        res.json({ success: false });
     }
 });
 
-// ---------------- SERVER LISTEN ----------------
-app.listen(8080, () => {
-    console.log("App is listening on port 8080");
+// ================= DELETE (PROTECTED) =================
+app.post("/delete/:id", isAdmin, async (req, res) => {
+    await Form.findByIdAndDelete(req.params.id);
+    res.redirect("/admin/submissions");
+});
+
+// ================= SERVER (RENDER READY) =================
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
 });

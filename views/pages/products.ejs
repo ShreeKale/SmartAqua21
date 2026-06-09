@@ -1,58 +1,18 @@
 <%- layout("layouts/boilerplate.ejs") %>
 
-<div class="product-cards row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2">
-    
-    <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">1000 LPH RO Plant</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
+<div class="max-w-7xl mx-auto px-6 py-32">
+    <h2 class="text-4xl font-extralight mb-16 tracking-tight">Product Catalog</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
+        <% ["500 LPH RO", "1000 LPH RO", "2 Ton Chiller", "3 Ton Chiller"].forEach(p => { %>
+        <div class="group">
+            <div class="aspect-square bg-slate-50 flex items-center justify-center p-8 mb-6 overflow-hidden">
+                <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" 
+                     class="max-h-full object-contain group-hover:scale-105 transition duration-500 opacity-80" alt="Product">
+            </div>
+            <h6 class="text-xs uppercase tracking-widest mb-2"><%= p %></h6>
+            <p class="text-[10px] text-slate-400 uppercase tracking-tighter mb-4">Precision Assembled</p>
+            <a href="/home#contact" class="text-[10px] uppercase tracking-widest border-b border-slate-900 pb-1">Enquire</a>
         </div>
-      </div>
-    
-      <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">2000 LPH RO Plant</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
-        </div>
-      </div>
-    
-      <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">500 LPH RO Plant</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
-        </div>
-      </div>
-      <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Water Softner</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
-        </div>
-      </div>
-    
-      <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">2 Ton Chiller</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
-        </div>
-      </div>
-    
-      <div class="card mt-3" style="width: 18rem;">
-        <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">3 Ton Chiller</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Details</a>
-        </div>
-      </div>
-
+        <% }) %>
+    </div>
 </div>
