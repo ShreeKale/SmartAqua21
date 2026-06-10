@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -6,17 +8,22 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 
 // ================= DATABASE =================
-mongoose.connect("mongodb://127.0.0.1:27017/smartaqua")
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("Database Connected"))
     .catch(err => console.log(err));
 
-// ================= SCHEMA =================
+// ================= SCHEMA (FINAL) =================
 const formSchema = new mongoose.Schema({
     name: String,
     phone: String,
     address: String,
-    roPlant: String,
-    chiller: String,
+
+    selections: {
+        roPlants: { type: [String], default: [] },
+        chillers: { type: [String], default: [] },
+        softeners: { type: [String], default: [] }
+    },
+
     date: { type: Date, default: Date.now }
 });
 
@@ -27,7 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: "smartaqua_secret_key",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -37,29 +44,26 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
-// ================= HOME ROUTES =================
+// ================= ROUTES =================
 app.get("/", (req, res) => res.render("pages/home"));
 app.get("/home", (req, res) => res.render("pages/home"));
 app.get("/products", (req, res) => res.render("pages/products"));
 
-// ================= AUTH MIDDLEWARE (FIXED) =================
+// ================= AUTH =================
 function isAdmin(req, res, next) {
-    if (req.session && req.session.admin) {
-        return next();
-    }
+    if (req.session && req.session.admin) return next();
     return res.redirect("/admin/login");
 }
 
-// ================= LOGIN PAGE =================
+// ================= LOGIN =================
 app.get("/admin/login", (req, res) => {
     res.render("pages/login");
 });
 
-// ================= LOGIN POST =================
 app.post("/admin/login", (req, res) => {
     const { username, password } = req.body;
 
-    if (username === "admin" && password === "admin123") {
+    if (username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS) {
         req.session.admin = true;
         return res.redirect("/admin/submissions");
     }
@@ -67,39 +71,91 @@ app.post("/admin/login", (req, res) => {
     res.send("Invalid Credentials");
 });
 
-// ================= LOGOUT =================
 app.get("/admin/logout", (req, res) => {
     req.session.destroy(() => {
         res.redirect("/admin/login");
     });
 });
 
-// ================= ADMIN PAGE (PROTECTED) =================
+// ================= ADMIN =================
 app.get("/admin/submissions", isAdmin, async (req, res) => {
     const submissions = await Form.find().sort({ date: -1 });
     res.render("pages/admin", { submissions });
 });
 
 // ================= FORM SUBMIT =================
+// ================= FORM SUBMIT =================
 app.post("/submit-form", async (req, res) => {
     try {
-        await Form.create(req.body);
+
+        console.log("BODY RECEIVED:");
+        console.log(JSON.stringify(req.body, null, 2));
+
+        const products = req.body.selectedProducts || [];
+
+        const roPlants = [];
+        const chillers = [];
+        const softeners = [];
+
+        products.forEach(product => {
+
+            if (product.includes("RO Plant")) {
+                roPlants.push(product);
+            }
+
+            else if (product.includes("Chiller")) {
+                chillers.push(product);
+            }
+
+            else if (product.includes("Softener")) {
+                softeners.push(product);
+            }
+
+        });
+
+        const formData = {
+            name: req.body.name,
+            phone: req.body.phone,
+            address: req.body.address,
+
+            selections: {
+                roPlants,
+                chillers,
+                softeners
+            }
+        };
+
+        console.log("SAVING:");
+        console.log(JSON.stringify(formData, null, 2));
+
+        await Form.create(formData);
+
         res.json({ success: true });
+
     } catch (err) {
+
         console.log(err);
         res.json({ success: false });
+
     }
 });
 
-// ================= DELETE (PROTECTED) =================
+// ================= DELETE =================
 app.post("/delete/:id", isAdmin, async (req, res) => {
     await Form.findByIdAndDelete(req.params.id);
     res.redirect("/admin/submissions");
 });
 
-// ================= SERVER (RENDER READY) =================
+// ================= SERVER =================
+// const PORT = process.env.PORT || 8080;
+// app.listen(PORT, () => console.log("Server running on " + PORT));
+
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-});
+if (process.env.NODE_ENV !== "production") {
+    app.listen(PORT, () => {
+        console.log("Server running on " + PORT);
+    });
+}
+
+module.exports = app;

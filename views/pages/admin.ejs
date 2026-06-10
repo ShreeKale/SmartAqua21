@@ -3,113 +3,105 @@
 <head>
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
 </head>
 
-<body class="bg-slate-100 min-h-screen">
+<body class="bg-slate-100">
 
 <!-- HEADER -->
 <div class="bg-white border-b">
-    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between">
 
         <div>
-            <h1 class="text-xl font-semibold text-slate-800">Client Enquiries</h1>
-            <p class="text-xs text-slate-500">Smart Aqua Admin Dashboard</p>
+            <h1 class="text-xl font-semibold">Client Enquiries</h1>
+            <p class="text-sm text-slate-500">Smart Aqua CRM</p>
         </div>
 
-        <div class="flex gap-4 items-center">
-            <a href="/home" class="text-sm text-slate-500 hover:text-slate-900 transition">Back</a>
-            <a href="/admin/logout" class="text-sm text-red-500 hover:text-red-700">Logout</a>
+        <div class="flex gap-4">
+            <a href="/admin/logout" class="text-red-500">Logout</a>
         </div>
 
     </div>
 </div>
 
-<!-- TABLE WRAPPER -->
+<!-- TABLE -->
 <div class="max-w-7xl mx-auto px-6 py-10">
 
-    <div class="bg-white shadow-sm border rounded-xl overflow-hidden">
+    <div class="bg-white rounded-xl shadow overflow-x-auto">
 
-        <!-- TABLE -->
-        <div class="overflow-x-auto">
+        <table class="w-full text-left">
 
-            <table class="w-full text-left">
+            <thead class="bg-slate-50 text-xs uppercase">
+                <tr>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Phone</th>
+                    <th class="p-4">Address</th>
+                    <th class="p-4">RO Plants</th>
+                    <th class="p-4">Chillers</th>
+                    <th class="p-4">Softeners</th>
+                    <th class="p-4">Date</th>
+                    <th class="p-4">Action</th>
+                </tr>
+            </thead>
 
-                <!-- HEAD -->
-                <thead class="bg-slate-50 border-b">
-                    <tr class="text-xs uppercase tracking-wider text-slate-500">
-                        <th class="p-4">Name</th>
-                        <th class="p-4">Phone</th>
-                        <th class="p-4">Address</th>
-                        <th class="p-4">RO Plant</th>
-                        <th class="p-4">Chiller</th>
-                        <th class="p-4">Date</th>
-                        <th class="p-4 text-center">Action</th>
-                    </tr>
-                </thead>
+            <tbody>
 
-                <!-- BODY -->
-                <tbody class="divide-y divide-slate-100">
+                <% submissions.forEach(s => { %>
+                <tr class="border-t">
 
-                    <% submissions.forEach(s => { %>
-                    <tr class="hover:bg-slate-50 transition">
+                    <td class="p-4 font-medium"><%= s.name %></td>
+                    <td class="p-4"><%= s.phone %></td>
+                    <td class="p-4"><%= s.address %></td>
 
-                        <td class="p-4 font-medium text-slate-800">
-                            <%= s.name %>
-                        </td>
+                    <!-- RO PLANTS -->
+                    <!-- RO PLANTS -->
+<td class="p-4">
+    <% if (s.selections?.roPlants?.length) { %>
+        <% s.selections.roPlants.forEach(v => { %>
+            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs mr-1">
+                <%= v %>
+            </span>
+        <% }) %>
+    <% } else { %> N/A <% } %>
+</td>
 
-                        <td class="p-4 text-slate-600">
-                            <%= s.phone %>
-                        </td>
+                    <!-- CHILLERS -->
+                    <td class="p-4">
+    <% if (s.selections?.chillers?.length) { %>
+        <% s.selections.chillers.forEach(v => { %>
+            <span class="bg-slate-200 text-slate-700 px-2 py-1 rounded text-xs mr-1">
+                <%= v %>
+            </span>
+        <% }) %>
+    <% } else { %> N/A <% } %>
+</td>
 
-                        <td class="p-4 text-slate-500 max-w-xs truncate">
-                            <%= s.address %>
-                        </td>
+                    <!-- SOFTENERS -->
+                    <td class="p-4">
+    <% if (s.selections?.softeners?.length) { %>
+        <% s.selections.softeners.forEach(v => { %>
+            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs mr-1">
+                <%= v %>
+            </span>
+        <% }) %>
+    <% } else { %> N/A <% } %>
+</td>
 
-                        <!-- BADGE STYLE -->
-                        <td class="p-4">
-                            <span class="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-600 font-medium">
-                                <%= s.roPlant %>
-                            </span>
-                        </td>
+                    <td class="p-4 text-sm text-slate-500">
+                        <%= s.date.toDateString() %>
+                    </td>
 
-                        <td class="p-4">
-                            <span class="px-3 py-1 text-xs rounded-full bg-slate-100 text-slate-600 font-medium">
-                                <%= s.chiller %>
-                            </span>
-                        </td>
+                    <td class="p-4">
+                        <form action="/delete/<%= s._id %>" method="POST">
+                            <button class="text-red-500 text-sm">Delete</button>
+                        </form>
+                    </td>
 
-                        <td class="p-4 text-sm text-slate-500">
-                            <%= s.date.toDateString() %>
-                        </td>
+                </tr>
+                <% }) %>
 
-                        <!-- ACTION -->
-                        <td class="p-4 text-center">
-                            <form action="/delete/<%= s._id %>" method="POST"
-                                  onsubmit="return confirm('Delete this record?')">
+            </tbody>
 
-                                <button
-                                    type="submit"
-                                    class="px-3 py-1 text-xs font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
-                                    Delete
-                                </button>
-
-                            </form>
-                        </td>
-
-                    </tr>
-                    <% }) %>
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </table>
 
     </div>
 

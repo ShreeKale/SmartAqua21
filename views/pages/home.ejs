@@ -1,204 +1,523 @@
 <%- layout("layouts/boilerplate.ejs") %>
 
-<section class="py-40 px-6 bg-stone-100 text-stone-900 relative overflow-hidden">
-    <div class="max-w-6xl mx-auto relative z-10 grid md:grid-cols-12 gap-16 items-center">
-        <div class="md:col-span-7 max-w-2xl">
-            <div class="flex items-center gap-3 mb-8">
-                <svg class="w-8 h-8 text-blue-900" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z" fill="currentColor" opacity="0.15"/>
-                    <path d="M12 4.5L4.5 12H7v7h4v-5h2v5h4v-7h2.5L12 4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="12" cy="11" r="1.5" fill="currentColor"/>
-                </svg>
-                <span class="text-xs uppercase tracking-[0.3em] font-semibold text-stone-800">Smart Aqua</span>
-            </div>
+<section class="relative bg-slate-100 py-12 md:py-24 overflow-hidden text-slate-800">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
             
-            <h1 class="text-5xl md:text-7xl font-serif font-light leading-tight mb-8 text-stone-900">
-                The Standard in <br> <span class="italic font-normal text-blue-900">Industrial Purity</span>
-            </h1>
-            <p class="text-stone-600 font-light text-lg leading-relaxed mb-12 max-w-xl">
-                Architecting advanced fluid separation systems and precision thermal control units for mission-critical industrial facilities across the globe.
-            </p>
-            <a href="#contact" class="inline-flex items-center gap-3 border-b border-stone-900 pb-1 text-xs uppercase tracking-[0.2em] font-medium text-stone-900 hover:text-blue-900 hover:border-blue-900 transition duration-300">
-                Initiate Engineering Review <span>&rarr;</span>
-            </a>
-        </div>
-        <div class="md:col-span-5 h-[450px]">
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Industrial Water Laboratory and Processing" class="w-full h-full object-cover rounded-2xl filter grayscale brightness-95 contrast-105 hover:grayscale-0 transition duration-700 shadow-xl">
-        </div>
-    </div>
-</section>
-
-<section class="py-32 bg-stone-200/60 px-6 border-y border-stone-300/50">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-16 items-center">
-        <div class="md:col-span-5 h-[500px] hidden md:block">
-            <img src="https://images.unsplash.com/photo-1617155093730-a8bf47be792d?auto=format&fit=crop&w=800&q=80" alt="Pure Water Mechanics" class="w-full h-full object-cover rounded-2xl shadow-xl filter contrast-110">
-        </div>
-        <div class="md:col-span-7">
-            <h2 class="text-xs uppercase tracking-[0.3em] text-blue-900 mb-6 font-semibold">Corporate Profile</h2>
-            <h3 class="text-3xl md:text-4xl font-serif font-light text-stone-900 leading-snug mb-8">
-                Uncompromising engineering <br>built for <span class="italic text-blue-900">generational performance.</span>
-            </h3>
-            <p class="text-stone-700 font-light leading-relaxed mb-6">
-                PureFlow Technologies designs, constructs, and deploys scalable high-capacity Reverse Osmosis frameworks. We operate at the intersection of environmental responsibility and heavy-duty utility output, optimizing recovery rates while reducing energy expenditures.
-            </p>
-            <p class="text-stone-700 font-light leading-relaxed">
-                From pre-treatment analytical auditing to turn-key mechanical assembly and responsive maintenance architecture, our lifespans are measured in decades.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="py-32 bg-stone-100 px-6">
-    <div class="max-w-6xl mx-auto">
-        <div class="mb-20">
-            <h2 class="text-xs uppercase tracking-[0.3em] text-stone-500 mb-4 font-medium">Core Capabilities</h2>
-            <h3 class="text-3xl font-serif font-light text-stone-900">Sector Specializations</h3>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            <% 
-            const applications = [
-                { title: "Healthcare & Dialysis", img: "https://images.unsplash.com/photo-1584515933487-7804d6688864?auto=format&fit=crop&w=600&q=80" },
-                { title: "Manufacturing & Heavy Sector", img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80" },
-                { title: "Chemical & Processing", img: "https://images.unsplash.com/photo-1532187863486-abf9d39d66e8?auto=format&fit=crop&w=600&q=80" },
-                { title: "Educational & Research Labs", img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80" },
-                { title: "Hospitality & Food Production", img: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80" },
-                { title: "Municipal Infrastructure", img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" }
-            ];
-            applications.forEach((app, index) => { 
-            %>
-                <div class="group transition-all duration-300">
-                    <div class="h-56 overflow-hidden mb-6 bg-stone-200 rounded-2xl shadow-md">
-                        <img src="<%= app.img %>" alt="<%= app.title %>" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="flex justify-between items-center px-1">
-                        <h4 class="text-sm uppercase tracking-wider font-medium text-stone-900"><%= app.title %></h4>
-                        <span class="text-stone-400 font-serif text-xs">/ 0<%= index + 1 %></span>
-                    </div>
-                </div>
-            <% }) %>
-        </div>
-    </div>
-</section>
-
-<section id="contact" class="py-36 px-6 bg-stone-200 text-stone-900 border-t border-stone-300/60">
-    <div class="max-w-6xl mx-auto">
-        <div class="grid lg:grid-cols-12 gap-20 items-start">
-            
-            <div class="lg:col-span-7">
-                <div class="mb-16">
-                    <h2 class="text-4xl font-serif font-light tracking-wide text-stone-900 mb-3">Quotation Request</h2>
-                    <p class="text-xs uppercase tracking-[0.25em] text-blue-900 font-medium">Custom System Specification Suite</p>
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 bg-white/80 border border-slate-200 px-3 py-1 rounded-full shadow-sm max-w-full">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full shrink-0 animate-pulse"></span>
+                    <span class="text-slate-600 uppercase tracking-widest text-[9px] sm:text-[10px] font-bold truncate">
+                        Smart Aqua • Solutions for Purity • Since 2016
+                    </span>
                 </div>
 
-                <form id="contactForm" class="space-y-12">
-                    <div class="grid md:grid-cols-2 gap-10">
-                        <div class="relative">
-                            <label class="block text-[11px] uppercase tracking-[0.15em] text-stone-500 mb-1">Full Name</label>
-                            <input type="text" id="name" name="name" class="w-full border-b border-stone-400 py-2 focus:outline-none focus:border-blue-900 transition bg-transparent font-light text-stone-950" required>
-                        </div>
-                        <div class="relative">
-                            <label class="block text-[11px] uppercase tracking-[0.15em] text-stone-500 mb-1">Mobile Number</label>
-                            <input type="tel" id="phone" name="phone" class="w-full border-b border-stone-400 py-2 focus:outline-none focus:border-blue-900 transition bg-transparent font-light text-stone-950" required>
-                        </div>
-                    </div>
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+                    Industrial RO Plants & <br class="hidden sm:inline">
+                    <span class="text-blue-600 font-extrabold">Water Chiller Systems</span>
+                </h1>
 
-                    <div>
-                        <label class="block text-[11px] uppercase tracking-[0.15em] text-stone-500 mb-1">Installation Site Address</label>
-                        <textarea id="address" name="address" class="w-full border-b border-stone-400 py-2 focus:outline-none focus:border-blue-900 transition bg-transparent font-light text-stone-950" rows="2" required></textarea>
-                    </div>
+                <p class="text-slate-600 text-xs sm:text-sm md:text-base max-w-xl font-light leading-relaxed">
+                    Engineering high-performance fluid loop ecosystems and commercial purification grids. We deliver tailored, turn-key filtration infrastructure built for continuous output, strict regulatory compliance, and optimal thermal management.
+                </p>
 
-                    <div class="grid md:grid-cols-2 gap-10 pt-6 border-t border-stone-300">
-                        <div>
-                            <h5 class="text-xs uppercase tracking-[0.2em] font-semibold text-stone-800 mb-6">1. RO Plant Capacity</h5>
-                            <div class="space-y-3">
-                                <% ["500 LPH", "1000 LPH", "2000 LPH"].forEach((val, i) => { %>
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="roPlant" value="<%= val %>" class="w-3.5 h-3.5 accent-blue-900 bg-stone-300 border-stone-400" <%= i==0?'checked':'' %>>
-                                        <span class="text-xs uppercase tracking-wider text-stone-600 group-hover:text-stone-950 transition"><%= val %> Unit</span>
-                                    </label>
-                                <% }) %>
-                            </div>
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-start gap-3">
+                        <div class="p-1.5 bg-white rounded-lg border border-slate-200 text-blue-600 shadow-sm shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                         <div>
-                            <h5 class="text-xs uppercase tracking-[0.2em] font-semibold text-stone-800 mb-6">2. Chiller Capacity</h5>
-                            <div class="space-y-3">
-                                <% ["2 Ton", "3 Ton", "5 Ton"].forEach((val, i) => { %>
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="chiller" value="<%= val %>" class="w-3.5 h-3.5 accent-blue-900 bg-stone-300 border-stone-400" <%= i==0?'checked':'' %>>
-                                        <span class="text-xs uppercase tracking-wider text-stone-600 group-hover:text-stone-950 transition"><%= val %> Unit</span>
-                                    </label>
-                                <% }) %>
-                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm">Reliable Water Treatment</h4>
+                            <p class="text-slate-500 text-xs mt-0.5">Custom configurations ensuring stable pure water outputs.</p>
                         </div>
                     </div>
 
-                    <div class="pt-4">
-                        <button type="submit" class="bg-stone-900 text-white px-16 py-4 text-[11px] uppercase tracking-[0.25em] hover:bg-blue-900 transition duration-300 font-medium tracking-widest shadow-md">
-                            Submit Inquiry
-                        </button>
+                    <div class="flex items-start gap-3">
+                        <div class="p-1.5 bg-white rounded-lg border border-slate-200 text-blue-600 shadow-sm shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">500 to 10,000+ LPH Capacity</h4>
+                            <p class="text-slate-500 text-xs mt-0.5">Engineered to seamlessly balance fluid loops at high scale.</p>
+                        </div>
                     </div>
-                </form>
-            </div>
-
-            <div class="lg:col-span-5 lg:pl-12 lg:border-l border-stone-300 space-y-12 self-end pb-4">
-                <div>
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-blue-900 font-semibold mb-4">Corporate Headquarters</h4>
-                    <p class="text-stone-700 font-light text-sm leading-relaxed uppercase tracking-wider">
-                        Smart Technology & Multi Services<br>
-                        Shendra MIDC<br>
-                        Chh. Sambhajinagar
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-blue-900 font-semibold mb-4">Direct Lines</h4>
-                    <p class="text-stone-700 font-light text-sm uppercase tracking-wider space-y-1">
-                        <span class="block">T: +91 94235 14131</span>
-                        <span class="block"></span>
-                    </p>
                 </div>
 
-                <div>
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-blue-900 font-semibold mb-4">Digital Communications</h4>
-                    <a href="mailto:solutions@pureflowtech.com" class="text-stone-700 font-light text-sm hover:text-blue-900 transition border-b border-stone-400 pb-0.5 tracking-wide">
-                        smartaqua1212@gmail.com
+                <div class="flex flex-wrap items-center gap-3 pt-4">
+                    <a href="#contact"
+                        class="bg-blue-600 hover:bg-blue-500 text-white px-5 sm:px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200 text-sm text-center grow sm:grow-0">
+                        Get Quote
+                    </a>
+                    <a href="/products"
+                        class="bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 px-5 sm:px-6 py-3 rounded-xl font-semibold transition shadow-sm text-sm text-center grow sm:grow-0">
+                        View Products
                     </a>
                 </div>
             </div>
 
+            <div class="lg:col-span-5 relative">
+                <div class="relative bg-white p-2.5 sm:p-3 rounded-3xl border border-slate-200 shadow-xl">
+                    <img
+                        src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80"
+                        alt="Pure Splashing Water Visual representation for Smart Aqua"
+                        class="w-full rounded-2xl object-cover h-[240px] sm:h-[380px] brightness-95"
+                    >
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
+<section class="bg-slate-50 border-b border-slate-200 py-8 sm:py-10">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+                <span class="text-2xl sm:text-3xl font-black text-slate-900 line-block">10+</span>
+                <span class="block text-slate-400 font-semibold text-[10px] tracking-wider mt-1 uppercase">Years Experience</span>
+            </div>
+            <div>
+                <span class="text-2xl sm:text-3xl font-black text-blue-600 block">3000+</span>
+                <span class="block text-slate-400 font-semibold text-[10px] tracking-wider mt-1 uppercase">Projects</span>
+            </div>
+            <div>
+                <span class="text-2xl sm:text-3xl font-black text-slate-900 block">2000+</span>
+                <span class="block text-slate-400 font-semibold text-[10px] tracking-wider mt-1 uppercase">Clients</span>
+            </div>
+            <div>
+                <span class="text-2xl sm:text-3xl font-black text-blue-600 block">24/7</span>
+                <span class="block text-slate-400 font-semibold text-[10px] tracking-wider mt-1 uppercase">Support</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-white py-16 sm:py-20 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <span class="text-blue-600 text-xs font-bold uppercase tracking-widest block">Who We Are</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+                        Driving Purity through Expert Systems Engineering
+                    </h2>
+                </div>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed font-light">
+                    Established in 2016, Smart Aqua has grown from a specialized water filter vendor into a trusted manufacturer of heavy-duty industrial purification plants and water chillers. We analyze exact water quality parameters at your facility to design setups that balance fluid loops flawlessly, limit mineral scaling, and optimize power configurations.
+                </p>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed font-light">
+                    Whether managing a precise medical diagnostic loop or deploying a centralized high-capacity drinking supply system for educational institutions, our engineering blueprints focus entirely on resource longevity and operating efficiency.
+                </p>
+                <div class="pt-2 grid grid-cols-2 gap-x-2 gap-y-4 text-[11px] sm:text-xs font-bold text-slate-800">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0"></span> ISO Components
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0"></span> Loop Topologies
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0"></span> Maintenance
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0"></span> TDS Reduction
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-4 sm:p-6 rounded-3xl border border-slate-200 space-y-4">
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg">Our Core Principles</h3>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                        <h4 class="font-bold text-xs sm:text-sm text-blue-600">Precision Analysis</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-500 mt-1 font-light leading-relaxed">We tune treatment membranes against raw chemical feed compositions to safeguard secondary mechanical components.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                        <h4 class="font-bold text-xs sm:text-sm text-slate-900">Operational Integrity</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-500 mt-1 font-light leading-relaxed">Continuous-duty structural frame chassis layouts designed to hold complete component alignments under continuous pressure loads.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-slate-100 py-16 sm:py-20 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center mb-12 px-2">
+            <span class="text-blue-600 text-xs font-bold uppercase tracking-widest block mb-2">Target Sectors</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+                Market Applications
+            </h2>
+            <p class="text-slate-500 text-xs sm:text-sm font-light mt-2 max-w-xl mx-auto">
+                Where our precise filtration configurations and balanced thermal loops run continuously to maintain structural processing criteria.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+            
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Healthcare & Dialysis</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        Supplying clinical pure feed loops, medical autoclaves, and critical diagnostic-grade water that strictly adheres to medical metrics.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Manufacturing Sector</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        High-capacity boiler feeds and cooling setups engineered to keep scale build-up at zero, optimizing facility uptime.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.656 48.656 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l-3 3m3-3l3 3"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Chemical Processing</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        Delivering custom chemical blend batching streams with rigorous demineralization and fluid loops.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Research Labs</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        Safe, centralized drinking water grids alongside ultra-pure laboratory-grade feed configurations.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72M6.75 18h3.5a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75h-3.5a.75.75 0 00-.75.75v3.75c0 .414.336.75.75.75z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Food Production</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        Centralized industrial kitchen systems and product batch ingredient blending loops running consistently.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 flex flex-col justify-between group shadow-sm hover:border-slate-300 hover:shadow-md transition duration-200">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="text-blue-600 bg-blue-50 p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-100 w-fit">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v14.25M22.5 10.5h-3.75m0 0V3m0 7.5H12M12 3v7.5m0 0H7.5m0 0V3m0 7.5H3M3 3v7.5M21 21v-7.5m0 0H3"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs sm:text-base pt-1">Municipal Infra</h3>
+                    <p class="text-slate-500 text-[10px] sm:text-xs font-light leading-relaxed hidden xs:block">
+                        High-scale local municipality neighborhood grids engineered for optimal resource sustainability.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="bg-slate-50 border-b border-slate-200 py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-10 px-2">
+            <span class="text-blue-600 text-xs font-bold uppercase tracking-widest block mb-1">Corporate Alliances</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Our Reputed Clients</h2>
+            <p class="text-slate-500 text-xs sm:text-sm font-light mt-1">Trusted across high-scale industrial manufacturing and corporate enterprise facilities.</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 sm:gap-8 max-w-4xl mx-auto">
+            <div class="bg-white border border-slate-200 p-3 sm:p-8 rounded-xl sm:rounded-2xl flex items-center justify-center transition duration-200 hover:shadow-md group">
+                <div class="h-8 sm:h-12 w-full flex items-center justify-center">
+                    <img src="https://harmanfinochem.com/wp-content/themes/harman/images/logo.png" alt="Harman Finochem Logo" class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition duration-200">
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 p-3 sm:p-8 rounded-xl sm:rounded-2xl flex items-center justify-center transition duration-200 hover:shadow-md group">
+                <div class="h-8 sm:h-12 w-full flex items-center justify-center">
+                    <img src="https://helical-springs.com/wp-content/uploads/2023/03/logo-3.png" alt="Helical Springs Logo" class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition duration-200">
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 p-3 sm:p-8 rounded-xl sm:rounded-2xl flex items-center justify-center transition duration-200 hover:shadow-md group">
+                <div class="h-8 sm:h-12 w-full flex items-center justify-center">
+                    <img src="https://www.rayonilluminations.com/images/logo.png" alt="Rayon Illuminations Logo" class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition duration-200">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="bg-slate-100 py-16">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-8 space-y-1">
+            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Request a Quote</h2>
+            <p class="text-slate-400 text-xs font-light">Select all necessary configurations for your customized facility system proposal.</p>
+        </div>
+
+        <form id="contactForm" class="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+            
+            <div class="space-y-4">
+                <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2">Equipment Selector</h3>
+                
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-slate-700 block">Industrial RO Plants:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 100 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>100 LPH</span>
+                            </label>
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 250 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>250 LPH</span>
+                            </label>
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 500 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>500 LPH</span>
+                            </label>
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 1000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>1000 LPH</span>
+                            </label>
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 2000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>2000 LPH</span>
+                            </label>
+                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                <input type="checkbox" name="products" value="RO Plant 4000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                <span>4000 LPH</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-slate-700 block">Water Chillers:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                    <input type="checkbox" name="products" value="Water Chiller 2 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                    <span>2 Ton</span>
+                                </label>
+                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                    <input type="checkbox" name="products" value="Water Chiller 3 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                    <span>3 Ton</span>
+                                </label>
+                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                    <input type="checkbox" name="products" value="Water Chiller 5 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                    <span>5 Ton</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-slate-700 block">Water Softeners:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
+                                    <input type="checkbox" name="products" value="Water Softener System" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
+                                    <span>Commercial Softener</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4 border-t border-slate-100 pt-4">
+                <h3 class="text-sm font-bold text-slate-900 tracking-wider uppercase pb-1">Contact Information</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label for="name" class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" class="bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition" required>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label for="phone" class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Contact Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Mobile / Office Phone" class="bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition" required>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5 sm:col-span-2">
+                        <label for="address" class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Installation Address</label>
+                        <textarea id="address" name="address" rows="2" placeholder="Enter full site facility details..." class="bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl shadow transition text-sm">
+                Submit Inquiry Configuration
+            </button>
+        </form>
+    </div>
+</section>
+
+<div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+    <div class="relative bg-white rounded-2xl border border-slate-200 max-w-sm w-full p-6 text-center shadow-2xl transform transition-all scale-95 opacity-0 duration-300" id="modalContent">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-500 mb-4">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
+            </svg>
+        </div>
+        
+        <h3 class="text-lg font-bold text-slate-900 tracking-tight">Inquiry Submitted</h3>
+        <p class="text-slate-500 text-xs font-light mt-2 leading-relaxed">
+            Thank you for reaching out. Our industrial systems engineering team will review your specified parameters and follow up shortly.
+        </p>
+        
+        <div class="mt-5">
+            <button type="button" id="closeModalBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition shadow-sm focus:outline-none">
+                Acknowledge
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto transition-opacity duration-300">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-2xl border border-slate-200 max-w-sm w-full p-6 text-center shadow-2xl transform transition-all scale-95 opacity-0 duration-300" id="modalContent">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-500 mb-4">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
+            </svg>
+        </div>
+        
+        <h3 class="text-lg font-bold text-slate-900 tracking-tight">Inquiry Submitted</h3>
+        <p class="text-slate-500 text-xs font-light mt-2 leading-relaxed">
+            Thank you for reaching out. Our industrial systems engineering team will review your specified parameters and follow up shortly.
+        </p>
+        
+        <div class="mt-5">
+            <button type="button" id="closeModalBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition shadow-sm focus:outline-none">
+                Acknowledge
+            </button>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-slate-50 text-slate-500 border-t border-slate-200 py-12">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-8 items-center text-center md:text-left">
+            <div class="text-xs space-y-3 font-light text-slate-500">
+                <div>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Phone</span>
+                    <a href="tel:+919423514131" class="text-slate-800 hover:text-slate-600 font-normal transition-colors">+91 94235 14131</a>
+                </div>
+                <div>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Email</span>
+                    <a href="mailto:smartaqua1212@gmail.com" class="text-slate-800 hover:text-slate-600 font-normal transition-colors">smartaqua1212@gmail.com</a>
+                </div>
+                <div>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Address</span>
+                    <p class="text-slate-800 font-normal leading-relaxed">
+                        Shendra MIDC, Chh. Sambhajinagar,<br>
+                        Maharashtra, India
+                    </p>
+                </div>
+            </div>
+
+            <div class="md:text-right">
+                <h3 class="text-base font-bold text-slate-900">Smart Aqua</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Industrial Scale Purification Setup Engineers.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 <script>
-    document.getElementById("contactForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const body = {
-            name: document.getElementById("name").value,
-            phone: document.getElementById("phone").value,
-            address: document.getElementById("address").value,
-            roPlant: document.querySelector('input[name="roPlant"]:checked').value,
-            chiller: document.querySelector('input[name="chiller"]:checked').value
-        };
-        const res = await fetch("/submit-form", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const selectedProducts = [];
+
+    document
+        .querySelectorAll('input[name="products"]:checked')
+        .forEach(item => {
+            selectedProducts.push(item.value);
         });
-        const result = await res.json();
-        if(result.success) {
-            Swal.fire({ 
-                title: "THANK YOU", 
-                text: "Your system configuration preferences have been securely submitted.", 
-                icon: "success", 
-                confirmButtonColor: "#1c1917",
-                customClass: { 
-                    title: 'font-serif tracking-widest text-xl text-stone-900',
-                    popup: 'rounded-none border border-stone-300'
-                }
+
+    const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        selectedProducts
+    };
+
+    console.log("Sending:", data);
+
+    try {
+        const response = await fetch("/submit-form", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        console.log(result);
+
+        // if (result.success) {
+        //     alert("Inquiry Submitted Successfully");
+
+        //     document.getElementById("contactForm").reset();
+        // } else {
+        //     alert("Failed to submit");
+        // }
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("contactForm");
+        const modal = document.getElementById("successModal");
+        const modalContent = document.getElementById("modalContent");
+        const closeBtn = document.getElementById("closeModalBtn");
+
+        if (form && modal && modalContent) {
+            form.addEventListener("submit", (e) => {
+                // If HTML validation passes, intercept standard submission to render the dynamic modal layout
+                e.preventDefault();
+                
+                // Show modal structure
+                modal.classList.remove("hidden");
+                
+                // Trigger smooth animation rendering
+                setTimeout(() => {
+                    modalContent.classList.remove("scale-95", "opacity-0");
+                    modalContent.classList.add("scale-100", "opacity-100");
+                }, 50);
+
+                // Optional: If you need the form to clear safely after visually updating
+                // form.reset();
             });
-            e.target.reset();
+        }
+
+        if (closeBtn && modal && modalContent) {
+            closeBtn.addEventListener("click", () => {
+                modalContent.classList.remove("scale-100", "opacity-100");
+                modalContent.classList.add("scale-95", "opacity-0");
+                
+                setTimeout(() => {
+                    modal.classList.add("hidden");
+                }, 300);
+            });
         }
     });
 </script>

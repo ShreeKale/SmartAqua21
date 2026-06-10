@@ -1,12 +1,78 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
+
+<style>
+    /* Custom utility class for the dominant brand font */
+    .font-brand-dominant {
+        font-family: 'Montserrat', sans-serif;
+    }
+</style>
+
 <nav class="w-full border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        
         <a href="/home" class="flex items-center gap-3">
-            <span class="text-xl font-normal tracking-ultra uppercase">Smart Aqua</span>
+            <img
+                src="imgs\Smart Logo.jpg"
+                alt="Smart Aqua Logo"
+                class="h-10 w-10 object-contain"
+            >
+            <span class="text-xl font-brand-dominant font-extrabold tracking-wider uppercase text-blue-750">
+                Smart Aqua
+            </span>
         </a>
+
         <div class="hidden md:flex items-center gap-10">
             <a href="/home" class="text-xs uppercase tracking-widest hover:text-blue-600 transition">Home</a>
             <a href="/products" class="text-xs uppercase tracking-widest hover:text-blue-600 transition">Products</a>
             <a href="/home#contact" class="px-5 py-2 border border-slate-900 text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition">Get Quote</a>
+            <a href="/admin/login" class="px-5 py-2 border border-blue-600 text-blue-600 text-xs uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Admin</a>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle Menu">
+            <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white w-full absolute top-20 left-0 transition-all duration-300 ease-in-out shadow-lg">
+        <div class="flex flex-col px-6 py-6 gap-5">
+            <a href="/home" class="mobile-link text-xs uppercase tracking-widest text-slate-700 hover:text-blue-600 py-2 border-b border-slate-50 transition">Home</a>
+            <a href="/products" class="mobile-link text-xs uppercase tracking-widest text-slate-700 hover:text-blue-600 py-2 border-b border-slate-50 transition">Products</a>
+            <a href="/admin/login" class="mobile-link text-xs uppercase tracking-widest text-blue-600 py-2 border-b border-slate-50 transition">Admin Panel</a>
+            <a href="/home#contact" class="mobile-link mt-2 w-full text-center px-5 py-3 border border-slate-900 text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition">Get Quote</a>
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>`;
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>`;
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>`;
+            });
+        });
+    });
+</script>
