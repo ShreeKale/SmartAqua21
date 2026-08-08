@@ -17,9 +17,11 @@ const formSchema = new mongoose.Schema({
     name: String,
     phone: String,
     address: String,
+    customRequirement: { type: String, default: "" },
 
     selections: {
         roPlants: { type: [String], default: [] },
+        dmPlants: { type: [String], default: [] },
         chillers: { type: [String], default: [] },
         softeners: { type: [String], default: [] }
     },
@@ -84,42 +86,26 @@ app.get("/admin/submissions", isAdmin, async (req, res) => {
 });
 
 // ================= FORM SUBMIT =================
-// ================= FORM SUBMIT =================
 app.post("/submit-form", async (req, res) => {
     try {
-
         console.log("BODY RECEIVED:");
         console.log(JSON.stringify(req.body, null, 2));
 
-        const products = req.body.selectedProducts || [];
-
-        const roPlants = [];
-        const chillers = [];
-        const softeners = [];
-
-        products.forEach(product => {
-
-            if (product.includes("RO Plant")) {
-                roPlants.push(product);
-            }
-
-            else if (product.includes("Chiller")) {
-                chillers.push(product);
-            }
-
-            else if (product.includes("Softener")) {
-                softeners.push(product);
-            }
-
-        });
+        const roPlants = req.body.roPlant ? [req.body.roPlant] : [];
+        const dmPlants = req.body.dmPlant ? [req.body.dmPlant] : [];
+        const chillers = req.body.waterChiller ? [req.body.waterChiller] : [];
+        const softeners = req.body.waterSoftener ? [req.body.waterSoftener] : [];
+        const customRequirement = req.body.customRequirement || "";
 
         const formData = {
             name: req.body.name,
             phone: req.body.phone,
             address: req.body.address,
+            customRequirement,
 
             selections: {
                 roPlants,
+                dmPlants,
                 chillers,
                 softeners
             }
@@ -133,10 +119,8 @@ app.post("/submit-form", async (req, res) => {
         res.json({ success: true });
 
     } catch (err) {
-
         console.log(err);
         res.json({ success: false });
-
     }
 });
 
@@ -147,9 +131,6 @@ app.post("/delete/:id", isAdmin, async (req, res) => {
 });
 
 // ================= SERVER =================
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => console.log("Server running on " + PORT));
-
 const PORT = process.env.PORT || 8080;
 
 if (process.env.NODE_ENV !== "production") {

@@ -265,7 +265,7 @@
     <div class="max-w-4xl mx-auto px-6">
         <div class="text-center mb-8 space-y-1">
             <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Request a Quote</h2>
-            <p class="text-slate-400 text-xs font-light">Select all necessary configurations for your customized facility system proposal.</p>
+            <p class="text-slate-400 text-xs font-light">Select multiple equipment configurations and specify your requirements below.</p>
         </div>
 
         <form id="contactForm" class="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
@@ -274,64 +274,69 @@
                 <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2">Equipment Selector</h3>
                 
                 <div class="space-y-4">
-                    <div class="space-y-2">
-                        <span class="text-xs font-bold text-slate-700 block">Industrial RO Plants:</span>
-                        <div class="flex flex-wrap gap-2">
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 100 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>100 LPH</span>
-                            </label>
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 250 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>250 LPH</span>
-                            </label>
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 500 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>500 LPH</span>
-                            </label>
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 1000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>1000 LPH</span>
-                            </label>
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 2000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>2000 LPH</span>
-                            </label>
-                            <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                <input type="checkbox" name="products" value="RO Plant 4000 LPH" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                <span>4000 LPH</span>
-                            </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label for="roPlant" class="text-xs font-bold text-slate-700 block">Industrial RO Plants:</label>
+                            <select id="roPlant" name="roPlant" class="config-select bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition w-full">
+                                <option value="" disabled selected>Select RO Plant Capacity</option>
+                                <option value="RO Plant 100 LPH">100 LPH</option>
+                                <option value="RO Plant 250 LPH">250 LPH</option>
+                                <option value="RO Plant 500 LPH">500 LPH</option>
+                                <option value="RO Plant 1000 LPH">1000 LPH</option>
+                                <option value="RO Plant 2000 LPH">2000 LPH</option>
+                                <option value="RO Plant 4000 LPH">4000 LPH</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="dmPlant" class="text-xs font-bold text-slate-700 block">DM Plants:</label>
+                            <select id="dmPlant" name="dmPlant" class="config-select bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition w-full">
+                                <option value="" disabled selected>Select DM Plant Capacity</option>
+                                <option value="DM Plant 100 LPH">100 LPH</option>
+                                <option value="DM Plant 250 LPH">250 LPH</option>
+                                <option value="DM Plant 500 LPH">500 LPH</option>
+                                <option value="DM Plant 1000 LPH">1000 LPH</option>
+                                <option value="DM Plant 2000 LPH">2000 LPH</option>
+                                <option value="DM Plant 4000 LPH">4000 LPH</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                        <div class="space-y-2">
-                            <span class="text-xs font-bold text-slate-700 block">Water Chillers:</span>
-                            <div class="flex flex-wrap gap-2">
-                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                    <input type="checkbox" name="products" value="Water Chiller 2 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                    <span>2 Ton</span>
-                                </label>
-                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                    <input type="checkbox" name="products" value="Water Chiller 3 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                    <span>3 Ton</span>
-                                </label>
-                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                    <input type="checkbox" name="products" value="Water Chiller 5 Ton" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                    <span>5 Ton</span>
-                                </label>
-                            </div>
+                        <div class="space-y-1.5">
+                            <label for="waterChiller" class="text-xs font-bold text-slate-700 block">Water Chillers:</label>
+                            <select id="waterChiller" name="waterChiller" class="config-select bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition w-full">
+                                <option value="" disabled selected>Select Chiller Capacity</option>
+                                <option value="Water Chiller 2 Ton">2 Ton</option>
+                                <option value="Water Chiller 3 Ton">3 Ton</option>
+                                <option value="Water Chiller 5 Ton">5 Ton</option>
+                            </select>
                         </div>
 
-                        <div class="space-y-2">
-                            <span class="text-xs font-bold text-slate-700 block">Water Softeners:</span>
-                            <div class="flex flex-wrap gap-2">
-                                <label class="product-chip relative flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 select-none transition text-xs text-slate-700 font-medium">
-                                    <input type="checkbox" name="products" value="Water Softener System" class="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-3.5 h-3.5">
-                                    <span>Commercial Softener</span>
-                                </label>
-                            </div>
+                        <div class="space-y-1.5">
+                            <label for="waterSoftener" class="text-xs font-bold text-slate-700 block">Water Softeners:</label>
+                            <select id="waterSoftener" name="waterSoftener" class="config-select bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition w-full">
+                                <option value="" disabled selected>Select Softener Type</option>
+                                <option value="Commercial Softener">Commercial Softener System</option>
+                            </select>
                         </div>
+                    </div>
+
+                    <!-- Live Selection Display Board -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2 mt-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Selected Configurations:</span>
+                            <span id="clearSelections" class="text-[11px] text-blue-600 hover:text-blue-700 cursor-pointer font-semibold hidden">Clear All</span>
+                        </div>
+                        <div id="selectionList" class="flex flex-wrap gap-1.5 min-h-[28px] items-center">
+                            <span class="text-xs text-slate-400 italic">No equipment selected yet. Choose options above.</span>
+                        </div>
+                    </div>
+
+                    <!-- Custom Requirement Box -->
+                    <div class="space-y-1.5 pt-2">
+                        <label for="customRequirement" class="text-xs font-bold text-slate-700 block">Custom Requirement / Specific Details:</label>
+                        <textarea id="customRequirement" name="customRequirement" rows="3" placeholder="Describe any unique TDS levels, layout constraints, custom flow rates, or specific engineering requirements..." class="bg-slate-50 border border-slate-200 focus:border-blue-500 p-2.5 rounded-xl text-slate-900 text-sm focus:outline-none transition w-full"></textarea>
                     </div>
                 </div>
             </div>
@@ -364,6 +369,7 @@
     </div>
 </section>
 
+<!-- Success Modal -->
 <div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto">
     <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
     <div class="relative bg-white rounded-2xl border border-slate-200 max-w-sm w-full p-6 text-center shadow-2xl transform transition-all scale-95 opacity-0 duration-300" id="modalContent">
@@ -386,138 +392,101 @@
     </div>
 </div>
 
-<div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto transition-opacity duration-300">
-    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
-    <div class="relative bg-white rounded-2xl border border-slate-200 max-w-sm w-full p-6 text-center shadow-2xl transform transition-all scale-95 opacity-0 duration-300" id="modalContent">
-        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-500 mb-4">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-            </svg>
-        </div>
-        
-        <h3 class="text-lg font-bold text-slate-900 tracking-tight">Inquiry Submitted</h3>
-        <p class="text-slate-500 text-xs font-light mt-2 leading-relaxed">
-            Thank you for reaching out. Our industrial systems engineering team will review your specified parameters and follow up shortly.
-        </p>
-        
-        <div class="mt-5">
-            <button type="button" id="closeModalBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition shadow-sm focus:outline-none">
-                Acknowledge
-            </button>
-        </div>
-    </div>
-</div>
-
-<footer class="bg-slate-50 text-slate-500 border-t border-slate-200 py-12">
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="grid md:grid-cols-2 gap-8 items-center text-center md:text-left">
-            <div class="text-xs space-y-3 font-light text-slate-500">
-                <div>
-                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Phone</span>
-                    <a href="tel:+919423514131" class="text-slate-800 hover:text-slate-600 font-normal transition-colors">+91 94235 14131</a>
-                </div>
-                <div>
-                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Email</span>
-                    <a href="mailto:smartaqua1212@gmail.com" class="text-slate-800 hover:text-slate-600 font-normal transition-colors">smartaqua1212@gmail.com</a>
-                </div>
-                <div>
-                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">Address</span>
-                    <p class="text-slate-800 font-normal leading-relaxed">
-                        Shendra MIDC, Chh. Sambhajinagar,<br>
-                        Maharashtra, India
-                    </p>
-                </div>
-            </div>
-
-            <div class="md:text-right">
-                <h3 class="text-base font-bold text-slate-900">Smart Aqua</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Industrial Scale Purification Setup Engineers.</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const selectedProducts = [];
-
-    document
-        .querySelectorAll('input[name="products"]:checked')
-        .forEach(item => {
-            selectedProducts.push(item.value);
-        });
-
-    const data = {
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        address: document.getElementById("address").value,
-        selectedProducts
-    };
-
-    console.log("Sending:", data);
-
-    try {
-        const response = await fetch("/submit-form", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        console.log(result);
-
-        // if (result.success) {
-        //     alert("Inquiry Submitted Successfully");
-
-        //     document.getElementById("contactForm").reset();
-        // } else {
-        //     alert("Failed to submit");
-        // }
-
-    } catch (err) {
-        console.log(err);
-    }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("contactForm");
         const modal = document.getElementById("successModal");
         const modalContent = document.getElementById("modalContent");
-        const closeBtn = document.getElementById("closeModalBtn");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        
+        const configSelects = document.querySelectorAll(".config-select");
+        const selectionList = document.getElementById("selectionList");
+        const clearSelectionsBtn = document.getElementById("clearSelections");
 
-        if (form && modal && modalContent) {
-            form.addEventListener("submit", (e) => {
-                // If HTML validation passes, intercept standard submission to render the dynamic modal layout
-                e.preventDefault();
-                
-                // Show modal structure
-                modal.classList.remove("hidden");
-                
-                // Trigger smooth animation rendering
-                setTimeout(() => {
-                    modalContent.classList.remove("scale-95", "opacity-0");
-                    modalContent.classList.add("scale-100", "opacity-100");
-                }, 50);
+        function updateSelectionsDisplay() {
+            selectionList.innerHTML = "";
+            let activeSelections = [];
 
-                // Optional: If you need the form to clear safely after visually updating
-                // form.reset();
+            configSelects.forEach(select => {
+                if (select.value) {
+                    activeSelections.push({
+                        selectId: select.id,
+                        value: select.value
+                    });
+                }
+            });
+
+            if (activeSelections.length > 0) {
+                clearSelectionsBtn.classList.remove("hidden");
+                activeSelections.forEach(item => {
+                    const badge = document.createElement("span");
+                    badge.className = "inline-flex items-center gap-1.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-lg shadow-2xs";
+                    badge.innerHTML = `
+                        <span>${item.value}</span>
+                        <button type="button" data-select-id="${item.selectId}" class="remove-badge text-blue-400 hover:text-blue-700 font-bold ml-0.5 focus:outline-none">&times;</button>
+                    `;
+                    selectionList.appendChild(badge);
+                });
+            } else {
+                clearSelectionsBtn.classList.add("hidden");
+                const placeholder = document.createElement("span");
+                placeholder.className = "text-xs text-slate-400 italic";
+                placeholder.textContent = "No equipment selected yet. Choose options above.";
+                selectionList.appendChild(placeholder);
+            }
+        }
+
+        configSelects.forEach(select => {
+            select.addEventListener("change", updateSelectionsDisplay);
+        });
+
+        selectionList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remove-badge")) {
+                const targetSelectId = e.target.getAttribute("data-select-id");
+                const targetSelect = document.getElementById(targetSelectId);
+                if (targetSelect) {
+                    targetSelect.value = "";
+                    updateSelectionsDisplay();
+                }
+            }
+        });
+
+        if (clearSelectionsBtn) {
+            clearSelectionsBtn.addEventListener("click", () => {
+                configSelects.forEach(select => {
+                    select.value = "";
+                });
+                updateSelectionsDisplay();
             });
         }
 
-        if (closeBtn && modal && modalContent) {
-            closeBtn.addEventListener("click", () => {
-                modalContent.classList.remove("scale-100", "opacity-100");
-                modalContent.classList.add("scale-95", "opacity-0");
-                
-                setTimeout(() => {
-                    modal.classList.add("hidden");
-                }, 300);
+        function showModal() {
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modalContent.classList.remove("scale-95", "opacity-0");
+                modalContent.classList.add("scale-100", "opacity-100");
+            }, 10);
+        }
+
+        function hideModal() {
+            modalContent.classList.remove("scale-100", "opacity-100");
+            modalContent.classList.add("scale-95", "opacity-0");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
+
+        if (form) {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                showModal();
+                form.reset();
+                updateSelectionsDisplay();
             });
+        }
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener("click", hideModal);
         }
     });
 </script>
