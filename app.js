@@ -12,6 +12,7 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const nodemailer = require("nodemailer");
 
 const app = express();
@@ -34,11 +35,98 @@ app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// =====================================================
+// ENVIRONMENT VALIDATION
+// =====================================================
+
+const requiredEnv = ["MONGO_URI", "SESSION_SECRET"];
+
+app.use((req, res, next) => {
+    const missing = requiredEnv.filter(
+        (key) => !process.env[key]
+    );
+
+    if (missing.length > 0) {
+        console.error("Missing environment variables:", missing);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server configuration is incomplete."
+        });
+    }
+
+    next();
+});
+
+if (!process.env.ADMIN_USER || !process.env.ADMIN_PASS) {
+    console.warn("Admin credentials are missing.");
+}
+
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn("Email credentials are missing.");
+}
+
+// =====================================================
+// DATABASE CONNECTION
+// =====================================================
+
+let dbConnectionPromise = null;
+
+async function connectDB() {
+    if (mongoose.connection.readyState === 1) {
+        return;
+    }
+
+    if (!dbConnectionPromise) {
+        dbConnectionPromise = mongoose
+            .connect(process.env.MONGO_URI)
+            .then(() => {
+                console.log(
+                    "Database connected:",
+                    mongoose.connection.name
+                );
+            })
+            .catch((error) => {
+                dbConnectionPromise = null;
+                console.error(
+                    "Database connection error:",
+                    error.message
+                );
+                throw error;
+            });
+    }
+
+    return dbConnectionPromise;
+}
+
+// Connect before handling routes that use MongoDB.
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        res.status(503).json({
+            success: false,
+            message: "Database temporarily unavailable."
+        });
+    }
+});
+
+// =====================================================
+// SESSION CONFIGURATION
+// =====================================================
+
 app.use(
     session({
+        name: "smart_aqua.sid",
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URI,
+            collectionName: "sessions",
+            ttl: 60 * 60 * 8
+        }),
         cookie: {
             httpOnly: true,
             secure: isProduction,
@@ -47,23 +135,6 @@ app.use(
         }
     })
 );
-
-// =====================================================
-// DATABASE
-// =====================================================
-
-mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log("=================================");
-        console.log("Database connected");
-        console.log("Database:", mongoose.connection.name);
-        console.log("Host:", mongoose.connection.host);
-        console.log("=================================");
-    })
-    .catch((error) => {
-        console.error("Database connection error:", error.message);
-    });
 
 // =====================================================
 // MONGOOSE SCHEMA
@@ -113,11 +184,18 @@ const formSchema = new mongoose.Schema({
     }
 });
 
-const Form = mongoose.model("Form", formSchema);
+const Form =
+    mongoose.models.Form ||
+    mongoose.model("Form", formSchema);
 
 // =====================================================
 // EMAIL CONFIGURATION
 // =====================================================
+
+const BUSINESS_NAME = "Smart Aqua";
+const BUSINESS_PHONE = "+91 94235 14131";
+const BUSINESS_EMAIL = process.env.EMAIL_USER;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || BUSINESS_EMAIL;
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -126,15 +204,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     }
 });
-
-const BUSINESS_NAME = "Smart Aqua";
-const BUSINESS_PHONE = "+91 94235 14131";
-
-// Sender email
-const BUSINESS_EMAIL = process.env.EMAIL_USER;
-
-// Admin notification email
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || BUSINESS_EMAIL;
 
 // Escape user-provided values before inserting into HTML.
 function escapeHtml(value = "") {
@@ -206,32 +275,50 @@ app.get("/admin/login", (req, res) => {
     res.render("pages/login");
 });
 
-app.post("/admin/login", (req, res) => {
+app.post("/admin/login", (req, res, next) => {
     const { username, password } = req.body;
 
     if (
-        username === process.env.ADMIN_USER &&
-        password === process.env.ADMIN_PASS
+        username !== process.env.ADMIN_USER ||
+        password !== process.env.ADMIN_PASS
     ) {
-        req.session.admin = true;
-        return res.redirect("/admin/submissions");
+        return res.status(401).send("Invalid credentials");
     }
 
-    return res.status(401).send("Invalid credentials");
-});
+    // Regenerate the session after authentication.
+    req.session.regenerate((error) => {
+        if (error) {
+            return next(error);
+        }
 
-app.post("/admin/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/admin/login");
+        req.session.admin = true;
+
+        req.session.save((saveError) => {
+            if (saveError) {
+                return next(saveError);
+            }
+
+            return res.redirect("/admin/submissions");
+        });
     });
 });
+
+function logout(req, res) {
+    req.session.destroy((error) => {
+        if (error) {
+            console.error("Logout error:", error);
+            return res.status(500).send("Unable to log out");
+        }
+
+        res.clearCookie("smart_aqua.sid");
+        return res.redirect("/admin/login");
+    });
+}
+
+app.post("/admin/logout", logout);
 
 // Keep the previous logout URL working.
-app.get("/admin/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/admin/login");
-    });
-});
+app.get("/admin/logout", logout);
 
 // =====================================================
 // ADMIN SUBMISSIONS
@@ -257,6 +344,9 @@ function validateInquiry(body) {
     const phone = String(body.phone || "").trim();
     const email = String(body.email || "").trim().toLowerCase();
     const address = String(body.address || "").trim();
+    const customRequirement = String(
+        body.customRequirement || ""
+    );
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^[+()\d\s.-]{7,25}$/;
@@ -281,7 +371,7 @@ function validateInquiry(body) {
         return "Address must be 500 characters or fewer.";
     }
 
-    if (String(body.customRequirement || "").length > 3000) {
+    if (customRequirement.length > 3000) {
         return "Custom requirements are too long.";
     }
 
@@ -327,7 +417,7 @@ app.post("/submit-form", async (req, res) => {
             }
         };
 
-        // Save inquiry first, so email failure won't lose it.
+        // Save the inquiry first so email failure won't lose it.
         const savedData = await Form.create(formData);
 
         console.log("Inquiry saved:", savedData._id);
@@ -349,15 +439,11 @@ app.post("/submit-form", async (req, res) => {
             "No additional requirements provided"
         );
 
-        // =================================================
-        // CUSTOMER CONFIRMATION EMAIL
-        // =================================================
-
+        // Customer confirmation email
         const customerEmail = {
             from: `"${BUSINESS_NAME}" <${BUSINESS_EMAIL}>`,
             to: formData.email,
             subject: "We received your Smart Aqua inquiry",
-
             text: `Dear ${formData.name},
 
 Thank you for contacting Smart Aqua. We have received your inquiry.
@@ -373,31 +459,20 @@ Our team will review your inquiry and contact you soon.
 ${BUSINESS_NAME}
 Phone: ${BUSINESS_PHONE}
 Email: ${BUSINESS_EMAIL}`,
-
             html: `
                 <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#1e293b;line-height:1.6">
                     <div style="background:#2563eb;color:#fff;padding:22px;border-radius:12px 12px 0 0">
                         <h2 style="margin:0">Smart Aqua</h2>
                         <p style="margin:5px 0 0">Industrial Water Treatment Solutions</p>
                     </div>
-
                     <div style="padding:24px;border:1px solid #e2e8f0;border-top:0;border-radius:0 0 12px 12px">
                         <h3>Thank you, ${safeName}!</h3>
-
-                        <p>
-                            We have received your inquiry.
-                            Our team will review your requirements
-                            and contact you soon.
-                        </p>
-
+                        <p>We have received your inquiry. Our team will review your requirements and contact you soon.</p>
                         <h4>Selected products</h4>
                         <ul>${productsHtml}</ul>
-
                         <h4>Your requirements</h4>
                         <p style="white-space:pre-wrap">${safeRequirement}</p>
-
                         <hr style="border:0;border-top:1px solid #e2e8f0;margin:24px 0">
-
                         <p>
                             <strong>Smart Aqua</strong><br>
                             Phone: ${escapeHtml(BUSINESS_PHONE)}<br>
@@ -408,16 +483,12 @@ Email: ${BUSINESS_EMAIL}`,
             `
         };
 
-        // =================================================
-        // ADMIN NOTIFICATION EMAIL
-        // =================================================
-
+        // Admin notification email
         const adminEmail = {
             from: `"Smart Aqua Website" <${BUSINESS_EMAIL}>`,
             to: ADMIN_EMAIL,
             replyTo: formData.email,
             subject: `New website inquiry from ${formData.name}`,
-
             text: `A new inquiry was submitted.
 
 Name: ${formData.name}
@@ -433,36 +504,27 @@ ${formData.customRequirement || "None"}
 
 Inquiry ID: ${savedData._id}
 Date: ${savedData.date.toISOString()}`,
-
             html: `
                 <div style="font-family:Arial,sans-serif;max-width:650px;margin:auto;color:#1e293b;line-height:1.6">
                     <h2 style="background:#1e293b;color:#fff;padding:18px;border-radius:10px">
                         New Smart Aqua Inquiry
                     </h2>
-
                     <p><strong>Name:</strong> ${safeName}</p>
                     <p><strong>Phone:</strong> ${safePhone}</p>
                     <p><strong>Email:</strong> ${safeEmail}</p>
                     <p><strong>Installation address:</strong> ${safeAddress}</p>
-
                     <h3>Selected products</h3>
                     <ul>${productsHtml}</ul>
-
                     <h3>Custom requirements</h3>
                     <p style="white-space:pre-wrap">${safeRequirement}</p>
-
                     <hr>
-
                     <p><strong>Inquiry ID:</strong> ${escapeHtml(savedData._id)}</p>
                     <p><strong>Date:</strong> ${escapeHtml(savedData.date.toISOString())}</p>
                 </div>
             `
         };
 
-        // =================================================
-        // SEND BOTH EMAILS INDEPENDENTLY
-        // =================================================
-
+        // Send emails independently.
         const emailResults = await Promise.allSettled([
             transporter.sendMail(customerEmail),
             transporter.sendMail(adminEmail)
@@ -488,8 +550,7 @@ Date: ${savedData.date.toISOString()}`,
             );
         }
 
-        const emailSent =
-            customerEmailSent && adminEmailSent;
+        const emailSent = customerEmailSent && adminEmailSent;
 
         return res.status(201).json({
             success: true,
@@ -501,7 +562,6 @@ Date: ${savedData.date.toISOString()}`,
             customerEmailSent,
             adminEmailSent
         });
-
     } catch (error) {
         console.error("Inquiry submission error:", error);
 
@@ -526,7 +586,6 @@ app.get("/test-db", isAdmin, async (req, res) => {
             host: mongoose.connection.host,
             count
         });
-
     } catch (error) {
         console.error("Database test error:", error);
 
@@ -550,7 +609,6 @@ app.post("/delete/:id", isAdmin, async (req, res) => {
         await Form.findByIdAndDelete(req.params.id);
 
         return res.redirect("/admin/submissions");
-
     } catch (error) {
         console.error("Delete error:", error);
 
@@ -561,29 +619,21 @@ app.post("/delete/:id", isAdmin, async (req, res) => {
 });
 
 // =====================================================
-// ENVIRONMENT VALIDATION
+// ERROR HANDLER
 // =====================================================
 
-if (!process.env.MONGO_URI) {
-    throw new Error("MONGO_URI is missing from .env");
-}
+app.use((error, req, res, next) => {
+    console.error("Application error:", error);
 
-if (!process.env.SESSION_SECRET) {
-    throw new Error("SESSION_SECRET is missing from .env");
-}
+    if (res.headersSent) {
+        return next(error);
+    }
 
-if (!process.env.ADMIN_USER || !process.env.ADMIN_PASS) {
-    console.warn("Admin credentials are missing.");
-}
-
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn(
-        "Email credentials are missing. Email sending will fail."
-    );
-}
+    res.status(500).send("An unexpected server error occurred.");
+});
 
 // =====================================================
-// SERVER
+// LOCAL SERVER
 // =====================================================
 
 if (require.main === module) {
