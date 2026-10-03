@@ -1,59 +1,572 @@
 <%- layout("layouts/boilerplate.ejs") %>
 
-<div class="max-w-7xl mx-auto px-6 md:px-12 py-20 lg:py-28">
-    <div class="mb-16 max-w-2xl">
-        <h2 class="text-3xl font-light tracking-tight text-slate-900 sm:text-4xl">Product Catalog</h2>
-        <p class="mt-4 text-sm text-slate-500 font-light leading-relaxed">
-            High-performance engineering solutions and purification grids built for continuous output and strict regulatory compliance.
-        </p>
-    </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 lg:py-10">
+    <!-- Header & Search/Filter Bar -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 border-b border-slate-200 pb-6">
+        <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Product Catalog</h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-500 font-light">
+                Explore industrial water systems and accessories. Click any card for details.
+            </p>
+        </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-12 sm:gap-y-16">
-        <% [
-            "100 LPH RO", 
-            "250 LPH RO", 
-            "500 LPH RO", 
-            "1000 LPH RO", 
-            "2000 LPH RO", 
-            "4000 LPH RO",
-            "2 Ton Chiller", 
-            "3 Ton Chiller",
-            "5 Ton Chiller",
-            "DM Plant",
-            "DI Plant",
-            "Dosing Chemical",
-            "Water ATM"
-        ].forEach(p => { %>
-        <div class="group flex flex-col justify-between">
-            <div>
-                <div class="aspect-square bg-slate-50 flex items-center justify-center p-4 sm:p-8 mb-6 border border-slate-100 rounded-xl transition-all duration-300 group-hover:border-slate-200 group-hover:shadow-sm">
-                    <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" 
-                         class="max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-102" 
-                         alt="<%= p %>">
-                </div>
-                
-                <div class="hidden sm:flex items-center gap-2 mb-2">
-                    <span class="text-[10px] uppercase tracking-widest text-slate-400 font-medium">Precisely Assembled</span>
-                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
-                    <span class="text-[10px] uppercase tracking-widest text-slate-400 font-medium">Industrial Grade</span>
-                </div>
-                
-                <h3 class="text-base sm:text-lg font-normal tracking-tight text-slate-900 mb-2">
-                    <%= p %>
-                </h3>
-                
-                <p class="text-[11px] sm:text-xs text-slate-500 font-light leading-relaxed mb-6 line-clamp-3 sm:line-clamp-none">
-                    Tuned treatment membranes against raw chemical feed compositions to safeguard secondary mechanical components.
-                </p>
+        <!-- Search and Filter Controls -->
+        <div class="flex flex-wrap items-center gap-2.5">
+            <div class="relative flex-1 sm:flex-initial">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input type="text" id="productSearch" placeholder="Search products..." onkeyup="filterProducts()" class="bg-slate-50 border border-slate-200 focus:border-blue-500 text-slate-900 text-xs rounded-xl pl-9 pr-3 py-2.5 focus:outline-none transition w-full sm:w-60">
             </div>
 
+            <select id="categoryFilter" onchange="filterProducts()" class="bg-slate-50 border border-slate-200 focus:border-blue-500 text-slate-900 text-xs rounded-xl px-3 py-2.5 focus:outline-none transition">
+                <option value="all">All Categories</option>
+                <option value="Industrial RO">Industrial RO Plants</option>
+                <option value="Demineralization">DM Plants</option>
+                <option value="Water Chiller">Water Chillers</option>
+                <option value="Water Softener">Water Softeners</option>
+                <option value="Other">Other Products</option>
+            </select>
+        </div>
+    </div>
+
+    <% 
+    const categories = [
+        {
+            id: "ro",
+            title: "Industrial RO Plants",
+            items: [
+                { 
+                    name: "100 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "100 LPH", 
+                    specs: {
+                        "Capacity": "100 LPH",
+                        "RO Membrane": "Standard Element",
+                        "Membrane Quantity": "1",
+                        "Operating TDS": "Up to 2,000 ppm",
+                        "Recovery": "40–60%",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Small industries, offices, laboratories, commercial use"
+                    }
+                },
+                { 
+                    name: "250 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "250 LPH", 
+                    specs: {
+                        "Capacity": "250 LPH",
+                        "RO Membrane": "4040 Series",
+                        "Membrane Quantity": "1",
+                        "Operating TDS": "Up to 2,000 ppm",
+                        "Recovery": "40–60%",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Commercial and industrial applications"
+                    }
+                },
+                { 
+                    name: "500 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "500 LPH", 
+                    specs: {
+                        "Capacity": "500 LPH",
+                        "RO Membrane": "4040 Series",
+                        "Membrane Quantity": "1–2",
+                        "Operating TDS": "Up to 2,500 ppm",
+                        "Recovery": "40–60%",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Hotels, hospitals, industries, commercial facilities"
+                    }
+                },
+                { 
+                    name: "1000 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "1000 LPH", 
+                    specs: {
+                        "Capacity": "1000 LPH",
+                        "RO Membrane": "4040 Series / 8040 Series",
+                        "Membrane Quantity": "2 / 4",
+                        "Operating TDS": "Up to 3,000 ppm",
+                        "Recovery": "40–60%",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "High-Pressure Pump": "Industrial-grade",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Manufacturing units, hospitals, hotels, institutions"
+                    }
+                },
+                { 
+                    name: "2000 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "2000 LPH", 
+                    specs: {
+                        "Capacity": "2000 LPH",
+                        "RO Membrane": "4040 Series / 8040 Series",
+                        "Membrane Quantity": "8 / 2",
+                        "Operating TDS": "Up to 3,000 ppm",
+                        "Recovery": "40–60%",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "High-Pressure Pump": "Industrial-grade",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Medium and large industrial facilities"
+                    }
+                },
+                { 
+                    name: "4000 LPH RO Plant", 
+                    category: "Industrial RO", 
+                    capacity: "4000 LPH", 
+                    specs: {
+                        "Capacity": "4000 LPH",
+                        "RO Membrane": "High Capacity Industrial",
+                        "Membrane Quantity": "Multi-element",
+                        "Operating TDS": "Up to 3,500 ppm",
+                        "Recovery": "40–60%",
+                        "High-Pressure Pump": "Industrial-grade",
+                        "Feed Water": "Borewell / Municipal / Raw Water",
+                        "Output": "Purified RO Water",
+                        "Application": "Large industries, manufacturing plants, commercial facilities"
+                    }
+                }
+            ]
+        },
+        {
+            id: "dm",
+            title: "DM Plants",
+            items: [
+                { 
+                    name: "100 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "100 LPH", 
+                    specs: {
+                        "Capacity": "100 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Application": "Laboratories, small industries, process water"
+                    }
+                },
+                { 
+                    name: "250 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "250 LPH", 
+                    specs: {
+                        "Capacity": "250 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Application": "Industrial and commercial applications"
+                    }
+                },
+                { 
+                    name: "500 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "500 LPH", 
+                    specs: {
+                        "Capacity": "500 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Application": "Manufacturing and process industries"
+                    }
+                },
+                { 
+                    name: "1000 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "1000 LPH", 
+                    specs: {
+                        "Capacity": "1000 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Manual / Automatic",
+                        "Application": "Pharmaceutical, chemical and manufacturing industries"
+                    }
+                },
+                { 
+                    name: "2000 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "2000 LPH", 
+                    specs: {
+                        "Capacity": "2000 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Automatic / Semi-Automatic",
+                        "Application": "Large industrial process applications"
+                    }
+                },
+                { 
+                    name: "4000 LPH DM Plant", 
+                    category: "Demineralization", 
+                    capacity: "4000 LPH", 
+                    specs: {
+                        "Capacity": "4000 LPH",
+                        "Process": "Demineralization / Ion Exchange",
+                        "Resin Type": "Cation + Anion",
+                        "Output": "Demineralized Water",
+                        "Conductivity": "Low conductivity output",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Application": "Large-scale industrial applications"
+                    }
+                }
+            ]
+        },
+        {
+            id: "chillers",
+            title: "Water Chillers",
+            items: [
+                { 
+                    name: "1 Ton Water Chiller", 
+                    category: "Water Chiller", 
+                    capacity: "1 TR", 
+                    specs: {
+                        "Cooling Capacity": "1 TR",
+                        "Cooling Type": "Water Cooling System",
+                        "Refrigerant": "As per system configuration",
+                        "Temperature Control": "Thermostatic control",
+                        "Operation": "Closed-loop circulation",
+                        "Application": "Small industrial processes and machinery cooling"
+                    }
+                },
+                { 
+                    name: "2 Ton Water Chiller", 
+                    category: "Water Chiller", 
+                    capacity: "2 TR", 
+                    specs: {
+                        "Cooling Capacity": "2 TR",
+                        "Cooling Type": "Water Cooling System",
+                        "Refrigerant": "As per system configuration",
+                        "Temperature Control": "Thermostatic control",
+                        "Operation": "Closed-loop circulation",
+                        "Application": "Industrial process and machinery cooling"
+                    }
+                },
+                { 
+                    name: "3 Ton Water Chiller", 
+                    category: "Water Chiller", 
+                    capacity: "3 TR", 
+                    specs: {
+                        "Cooling Capacity": "3 TR",
+                        "Cooling Type": "Water Cooling System",
+                        "Refrigerant": "As per system configuration",
+                        "Temperature Control": "Thermostatic control",
+                        "Operation": "Closed-loop circulation",
+                        "Application": "Medium industrial cooling requirements"
+                    }
+                },
+                { 
+                    name: "5 Ton Water Chiller", 
+                    category: "Water Chiller", 
+                    capacity: "5 TR", 
+                    specs: {
+                        "Cooling Capacity": "5 TR",
+                        "Cooling Type": "Water Cooling System",
+                        "Refrigerant": "As per system configuration",
+                        "Temperature Control": "Thermostatic control",
+                        "Operation": "Closed-loop circulation",
+                        "Application": "Large industrial process cooling"
+                    }
+                }
+            ]
+        },
+        {
+            id: "softeners",
+            title: "Water Softeners",
+            items: [
+                { 
+                    name: "500 LPH Water Softener", 
+                    category: "Water Softener", 
+                    capacity: "500 LPH", 
+                    specs: {
+                        "Capacity": "500 LPH",
+                        "Process": "Ion Exchange",
+                        "Media": "Cation Exchange Resin",
+                        "Primary Function": "Hardness Removal",
+                        "Regeneration": "Salt / Brine Regeneration",
+                        "Operation": "Manual / Automatic",
+                        "Application": "Boilers, RO pre-treatment, commercial and industrial use"
+                    }
+                },
+                { 
+                    name: "1000 LPH Water Softener", 
+                    category: "Water Softener", 
+                    capacity: "1000 LPH", 
+                    specs: {
+                        "Capacity": "1000 LPH",
+                        "Process": "Ion Exchange",
+                        "Media": "Cation Exchange Resin",
+                        "Primary Function": "Hardness Removal",
+                        "Regeneration": "Salt / Brine Regeneration",
+                        "Operation": "Manual / Automatic",
+                        "Application": "Industrial and commercial water treatment"
+                    }
+                },
+                { 
+                    name: "2000 LPH Water Softener", 
+                    category: "Water Softener", 
+                    capacity: "2000 LPH", 
+                    specs: {
+                        "Capacity": "2000 LPH",
+                        "Process": "Ion Exchange",
+                        "Media": "Cation Exchange Resin",
+                        "Primary Function": "Hardness Removal",
+                        "Regeneration": "Salt / Brine Regeneration",
+                        "Operation": "Automatic / Semi-Automatic",
+                        "Application": "Industrial boilers, RO systems and process water"
+                    }
+                }
+            ]
+        },
+        {
+            id: "other",
+            title: "Other Products & Accessories",
+            items: [
+                { 
+                    name: "Water ATM", 
+                    category: "Other", 
+                    capacity: "1000+ LPH", 
+                    specs: {
+                        "Type": "Automated Drinking Water Dispensing System",
+                        "Capacity": "1000+ LPH",
+                        "Water Source": "RO Purified Water",
+                        "Dispensing": "Automated",
+                        "Operation": "Manual / Semi-Automatic / Automatic",
+                        "Filtration": "RO / UV / Other treatment as configured",
+                        "Storage": "Integrated / External tank configuration",
+                        "Application": "Public places, institutions, commercial areas"
+                    }
+                },
+                { 
+                    name: "Dosing Chemical", 
+                    category: "Other", 
+                    capacity: "Various Volumes", 
+                    specs: {
+                        "Type": "Chemical Dosing System",
+                        "Function": "Controlled Chemical Injection",
+                        "Applications": "Antiscalant, Biocide, pH Correction and Process Chemicals",
+                        "Control": "Manual / Automatic",
+                        "Components": "Dosing Pump + Chemical Tank",
+                        "Application": "RO Plants, water treatment systems and industrial processes"
+                    }
+                },
+                { 
+                    name: "PP Filter", 
+                    category: "Other", 
+                    capacity: "Standard Housings", 
+                    specs: {
+                        "Type": "Polypropylene Sediment Filter",
+                        "Filtration": "Sediment Removal",
+                        "Micron Rating": "Available in multiple micron ratings",
+                        "Function": "Removes suspended particles, dirt and sediments",
+                        "Installation": "Filter Housing",
+                        "Application": "RO Pre-Treatment, Domestic & Industrial Water Filtration"
+                    }
+                },
+                { 
+                    name: "Wound Filter", 
+                    category: "Other", 
+                    capacity: "Standard Housings", 
+                    specs: {
+                        "Type": "String Wound Cartridge Filter",
+                        "Filtration": "Depth Filtration",
+                        "Micron Rating": "Available in multiple micron ratings",
+                        "Function": "Sediment and suspended particle removal",
+                        "Construction": "Wound filter media",
+                        "Application": "RO Pre-Treatment, Industrial Water Treatment and Process Filtration"
+                    }
+                }
+            ]
+        }
+    ];
+    %>
+
+    <div class="space-y-10" id="catalogContainer">
+        <% categories.forEach(cat => { %>
+        <section class="product-section space-y-4" data-section="<%= cat.id %>">
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight"><%= cat.title %></h3>
+
+            <!-- Responsive Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                <% cat.items.forEach(p => { %>
+                <div onclick="openProductModal('<%= p.name %>', '<%= p.category %>', <%= JSON.stringify(p.specs) %>)" 
+                     class="product-card group bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3.5 sm:p-5 shadow-xs hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between cursor-pointer"
+                     data-name="<%= p.name.toLowerCase() %>"
+                     data-category="<%= p.category %>">
+                    <div>
+                        <div class="aspect-square bg-slate-50 flex items-center justify-center p-0 mb-3 sm:mb-5 border border-slate-100 rounded-lg sm:rounded-xl overflow-hidden relative">
+                            <img src="https://www.rocareindia.com/uploads/product_image/product_452_1.jpg" 
+                                 class="w-full h-full object-cover shadow-sm transition-transform duration-500 ease-out group-hover:scale-105" 
+                                 alt="<%= p.name %>">
+                        </div>
+                        
+                        <div class="hidden sm:flex items-center gap-2 mb-1.5">
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-blue-600 font-bold"><%= p.category %></span>
+                        </div>
+                        
+                        <h4 class="text-xs sm:text-base font-bold tracking-tight text-slate-900 mb-1 sm:mb-2 line-clamp-1">
+                            <%= p.name %>
+                        </h4>
+                        
+                        <p class="text-[10px] sm:text-xs text-slate-500 font-light leading-relaxed mb-4 sm:mb-6 line-clamp-2">
+                            Capacity: <%= p.capacity %> | Professional Industrial Grade System
+                        </p>
+                    </div>
+
+                    <div>
+                        <span class="w-full flex items-center justify-center bg-slate-50 group-hover:bg-blue-600 text-slate-800 group-hover:text-white border border-slate-200 group-hover:border-blue-600 font-semibold text-[10px] sm:text-xs py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl transition-all duration-200 shadow-2xs">
+                            View specifications
+                        </span>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </section>
+        <% }) %>
+    </div>
+    
+    <div id="noResults" class="hidden text-center py-16">
+        <p class="text-slate-400 text-xs sm:text-sm">No products found matching your search criteria.</p>
+    </div>
+</div>
+
+<!-- Product Specification Modal -->
+<div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-lg w-full mx-4 p-6 sm:p-8 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 relative max-h-[90vh] overflow-y-auto" id="modalContent">
+        <button onclick="closeProductModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-2 rounded-full bg-slate-50 hover:bg-slate-100 transition" aria-label="Close modal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="space-y-4">
             <div>
-                <a href="/home#contact?product=<%= encodeURIComponent(p) %>" 
-                   class="inline-block text-xs uppercase tracking-widest text-slate-900 font-medium border-b border-slate-900 pb-1 hover:text-slate-600 hover:border-slate-400 transition-colors duration-200">
-                    Enquire
+                <span id="modalCategory" class="text-[10px] uppercase font-bold tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md"></span>
+                <h3 id="modalTitle" class="text-2xl font-black text-slate-900 mt-2"></h3>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/60 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Technical Specifications</h4>
+                <div id="modalSpecsContainer" class="grid grid-cols-2 gap-4 text-xs">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-500 font-light leading-relaxed">
+                Engineered with high-grade components for continuous structural output, minimized scaling, and optimized operational stability.
+            </p>
+
+            <div class="pt-4 flex items-center gap-3">
+                <a id="modalEnquireBtn" href="#" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl text-center text-xs shadow-md transition">
+                    Enquire For This Model
                 </a>
             </div>
         </div>
-        <% }) %>
     </div>
 </div>
+
+<script>
+    function filterProducts() {
+        const query = document.getElementById('productSearch').value.toLowerCase();
+        const selectedCategory = document.getElementById('categoryFilter').value;
+        const sections = document.querySelectorAll('.product-section');
+        let totalVisibleCards = 0;
+
+        sections.forEach(section => {
+            const cards = section.querySelectorAll('.product-card');
+            let visibleInSection = 0;
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const category = card.getAttribute('data-category');
+
+                const matchesQuery = name.includes(query);
+                const matchesCategory =
+                    selectedCategory === 'all' ||
+                    category === selectedCategory;
+
+                if (matchesQuery && matchesCategory) {
+                    card.style.display = 'flex';
+                    visibleInSection++;
+                    totalVisibleCards++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            section.style.display =
+                visibleInSection === 0 ? 'none' : 'block';
+        });
+
+        const noResults = document.getElementById('noResults');
+
+        if (totalVisibleCards === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+    }
+
+    function openProductModal(name, category, specs) {
+        document.getElementById('modalTitle').innerText = name;
+        document.getElementById('modalCategory').innerText = category;
+
+        const container = document.getElementById('modalSpecsContainer');
+        container.innerHTML = '';
+
+        for (const [key, value] of Object.entries(specs)) {
+            const div = document.createElement('div');
+            const isLongText = key.toLowerCase().includes('application') || key.toLowerCase().includes('feed');
+            div.className = isLongText ? 'col-span-2' : '';
+            div.innerHTML = `
+                <span class="block text-slate-400 font-medium">${key}</span>
+                <span class="font-bold text-slate-800 text-sm mt-0.5 block">${value}</span>
+            `;
+            container.appendChild(div);
+        }
+
+        document.getElementById('modalEnquireBtn').href =
+            `/home?product=${encodeURIComponent(name)}#contact`;
+
+        const modal = document.getElementById('productModal');
+        const content = document.getElementById('modalContent');
+
+        modal.classList.remove('hidden');
+
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeProductModal() {
+        const modal = document.getElementById('productModal');
+        const content = document.getElementById('modalContent');
+
+        modal.classList.add('opacity-0');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    document.getElementById('productModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeProductModal();
+        }
+    });
+</script>
